@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - MedEquip</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== VARIÁVEIS DE CORES (FÁCIL DE MODIFICAR) ===== */
+        :root {
+            --cor-primaria: #f75e0a;
+            --cor-secundaria: #5f5f5f;
+            --cor-destaque: #25D366;
+            --cor-texto: #3e3e3e;
+            --cor-fundo: #f8f9fa;
+            --cor-branco: #ffffff;
+            --cor-sombra: rgba(0, 0, 0, 0.1);
+            --cor-verde-whatsapp: #25D366;
+        }
+
+        /* ===== ESTILOS GLOBAIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--cor-destaque);
+            color: var(--cor-branco);
+            border-radius: 4px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-whatsapp {
+            background-color: var(--cor-verde-whatsapp);
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+        }
+
+        /* ===== CABEÇALHO ===== */
+        header {
+            background-color: var(--cor-branco);
+            box-shadow: 0 2px 10px var(--cor-sombra);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            max-width: 200px;
+        }
+
+        nav ul {
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--cor-destaque);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--cor-destaque);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--cor-primaria);
+        }
+
+        /* ===== PÁGINA DE LOCAÇÃO ===== */
+        .locacao {
+            margin-top: 80px;
+            padding: 40px 0;
+        }
+
+        .locacao h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--cor-primaria);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .locacao h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--cor-destaque);
+        }
+
+        /* ===== BARRA DE PESQUISA ===== */
+        .barra-pesquisa {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .pesquisa-container {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 3px 10px var(--cor-sombra);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .pesquisa-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+            background-color: var(--cor-branco);
+        }
+
+        .pesquisa-botao {
+            background-color: var(--cor-primaria);
+            color: var(--cor-branco);
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .pesquisa-botao:hover {
+            background-color: var(--cor-secundaria);
+        }
+
+        .resultado-pesquisa {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--cor-primaria);
+        }
+
+        /* ===== CATÁLOGO ===== */
+        .catalogo {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .produto {
+            background-color: var(--cor-branco);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px var(--cor-sombra);
+            transition: transform 0.3s ease;
+        }
+
+        .produto:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .produto-imagem {
+            height: 200px;
+            background-color: #ddd;
+            overflow: hidden;
+        }
+
+        .produto-imagem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .produto:hover .produto-imagem img {
+            transform: scale(1.05);
+        }
+
+        .produto-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .produto-info h3 {
+            margin-bottom: 10px;
+            color: var(--cor-primaria);
+            font-size: 1.3rem;
+        }
+
+        .produto-info .btn {
+            margin-top: 10px;
+        }
+
+        /* ===== MENSAGEM SEM RESULTADOS ===== */
+        .sem-resultados {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background-color: var(--cor-branco);
+            border-radius: 8px;
+            box-shadow: 0 3px 10px var(--cor-sombra);
+        }
+
+        .sem-resultados i {
+            font-size: 3rem;
+            color: var(--cor-secundaria);
+            margin-bottom: 20px;
+        }
+
+        .sem-resultados h3 {
+            margin-bottom: 10px;
+            color: var(--cor-primaria);
+        }
+
+        /* ===== MODAL/POP-UP ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .modal-conteudo {
+            background-color: var(--cor-branco);
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-fechar {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+            color: var(--cor-texto);
+            background: rgba(255, 255, 255, 0.9);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-fechar:hover {
+            background: var(--cor-destaque);
+            color: var(--cor-branco);
+        }
+
+        .modal-imagens {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px;
+            gap: 15px;
+            scrollbar-width: thin;
+        }
+
+        .modal-imagens::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .modal-imagens::-webkit-scrollbar-thumb {
+            background-color: var(--cor-secundaria);
+            border-radius: 4px;
+        }
+
+        .modal-imagem {
+            min-width: 300px;
+            height: 200px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .modal-imagem img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-info {
+            padding: 25px;
+        }
+
+        .modal-info h2 {
+            margin-bottom: 15px;
+            color: var(--cor-primaria);
+            font-size: 1.8rem;
+        }
+
+        .modal-info p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .modal-info .btn {
+            font-size: 1.1rem;
+            padding: 15px 30px;
+        }
+
+        /* ===== BOTÃO FLUTUANTE DO WHATSAPP ===== */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--cor-verde-whatsapp);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .whatsapp-float i {
+            color: white;
+            font-size: 30px;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+        /* ===== RODAPÉ ===== */
+        footer {
+            background-color: #1a252f;
+            color: var(--cor-branco);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            margin-bottom: 20px;
+        }
+
+        .footer-logo img {
+            height: 40px;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-texto {
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+
+        .footer-direitos {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            width: 100%;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: var(--cor-branco);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: left 0.3s ease;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            nav ul.active {
+                left: 0;
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+
+            .modal-conteudo {
+                width: 95%;
+                margin: 20px auto;
+            }
+
+            .modal-imagem {
+                min-width: 250px;
+                height: 180px;
+            }
+
+            .pesquisa-container {
+                flex-direction: column;
+                border-radius: 8px;
+            }
+
+            .pesquisa-input {
+                border-radius: 8px 8px 0 0;
+            }
+
+            .pesquisa-botao {
+                border-radius: 0 0 8px 8px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .locacao h1 {
+                font-size: 1.8rem;
+            }
+
+            .modal-info {
+                padding: 15px;
+            }
+
+            .modal-info h2 {
+                font-size: 1.5rem;
+            }
+
+            .catalogo {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho Fixo -->
+    <header>
+        <div class="container header-container">
+            <!-- LOGO - Substitua pela sua imagem -->
+            <div class="logo">
+                <!-- COLOQUE SUA LOGO AQUI -->
+                <img src="https://res.cloudinary.com/dtkduopiv/image/upload/v1761962575/Design_sem_nome__17_-removebg-preview_mzpjah.png" alt="MedEquip - Equipamentos Hospitalares">
+                <!-- <h2 style="color: var(--cor-primaria);">MedEquip</h2> -->
+            </div>
+            
+            <!-- Menu de Navegação -->
+            <nav>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="locacao.html">Locação</a></li>
+                    <li><a href="index.html#empresa">Empresa</a></li>
+                    <li><a href="index.html#tecnico">Técnico</a></li>
+                    <li><a href="index.html#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Conteúdo da Página de Locação -->
+    <main class="locacao">
+        <div class="container">
+            <!-- TÍTULO DA PÁGINA DE LOCAÇÃO - Modifique aqui -->
+            <h1>Catálogo de Equipamentos</h1>
+            
+            <!-- BARRA DE PESQUISA -->
+            <div class="barra-pesquisa">
+                <div class="pesquisa-container">
+                    <input type="text" class="pesquisa-input" placeholder="Digite o nome do equipamento..." id="campo-pesquisa">
+                    <button class="pesquisa-botao" id="botao-pesquisa">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="resultado-pesquisa" id="resultado-pesquisa"></div>
+            </div>
+            
+            <div class="catalogo" id="catalogo-produtos">
+                <!-- OS PRODUTOS SERÃO CARREGADOS AUTOMATICAMENTE PELO JAVASCRIPT -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal/Pop-up para detalhes do produto -->
+    <div id="modal-produto" class="modal">
+        <div class="modal-conteudo">
+            <span class="modal-fechar">&times;</span>
+            
+            <div class="modal-imagens" id="modal-galeria">
+                <!-- AS IMAGENS SERÃO CARREGADAS AUTOMATICAMENTE PELO JAVASCRIPT -->
+            </div>
+            
+            <div class="modal-info">
+                <!-- TÍTULO DO PRODUTO NO MODAL - Será preenchido pelo JavaScript -->
+                <h2 id="modal-titulo">Nome do Produto</h2>
+                
+                <!-- DESCRIÇÃO DO PRODUTO - Será preenchida pelo JavaScript -->
+                <p id="modal-descricao">Descrição detalhada do produto. Inclua informações sobre especificações, características, condições de locação, etc.</p>
+                
+                <!-- BOTÃO WHATSAPP - Será preenchido pelo JavaScript -->
+                <a id="modal-whatsapp" href="#" class="btn btn-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Solicitar Orçamento
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão Flutuante do WhatsApp -->
+    <a href="https://wa.me/5585989408154?text=Olá, gostaria de mais informações sobre equipamentos hospitalares" class="whatsapp-float" target="_blank" aria-label="Entre em contato pelo WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <!-- COLOQUE SUA LOGO AQUI -->
+                <!-- <img src="logo-medequip-branco.png" alt="MedEquip"> -->
+                <h3>Alternativa Assitência Técnica</h3>
+            </div>
+            <div class="footer-texto">
+                <p>Especializada em locação e manutenção de equipamentos hospitalares, oferecendo soluções completas para o setor de saúde.</p>
+            </div>
+            <div class="footer-direitos">
+                <!-- TEXTO DO RODAPÉ - Modifique aqui -->
+                <p>&copy; 2023 - Equipamentos Hospitalares. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // ===== CONFIGURAÇÕES PRINCIPAIS (MODIFIQUE AQUI) =====
+        
+        // NÚMERO DO WHATSAPP (use o mesmo para todos os produtos)
+        const NUMERO_WHATSAPP = "5585989408154"; // Substitua pelo seu número
+        
+        // LISTA DE PRODUTOS (ADICIONE SEUS PRODUTOS AQUI)
+        const PRODUTOS = [
+            {
+                id: 1,
+                nome: "Monitor Multiparamétrico",
+                imagem: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                categoria: "monitoramento",
+                descricao: "Monitor multiparamétrico de última geração para acompanhamento contínuo de sinais vitais. Ideal para UTIs, centros cirúrgicos e emergências. Monitora ECG, SpO2, pressão arterial não invasiva, temperatura e respiração. Tela colorida de 12.1 polegadas, interface intuitiva, bateria com autonomia de 4 horas e conectividade para integração com sistemas hospitalares.",
+                imagensModal: [
+                    "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1516549655669-df6654e35e01?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ]
+            },
+            {
+                id: 2,
+                nome: "Ventilador Pulmonar",
+                imagem: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                categoria: "ventilacao",
+                descricao: "Ventilador pulmonar de alta performance para suporte ventilatório em pacientes críticos. Oferece modos ventilatórios controlados, assistidos e espontâneos. Sistema de alarmes abrangente, bateria com longa duração, tela touchscreen e recursos avançados como PEEP, FiO2 ajustável e monitoramento de curvas. Ideal para UTIs, transporte intra-hospitalar e situações de emergência.",
+                imagensModal: [
+                    "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ]
+            },
+            {
+                id: 3,
+                nome: "Bomba de Infusão",
+                imagem: "https://images.unsplash.com/photo-1516549655669-df6654e35e01?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                categoria: "infusao",
+                descricao: "Bomba de infusão de alta precisão para administração controlada de medicamentos e soluções. Permite programação de vazão, volume total a infundir e modo bolo. Sistema de alarmes para oclusão, bolha de ar, bateria fraca e fim de infusão. Interface intuitiva, teclado à prova de respingos e bateria com autonomia de 8 horas. Disponível em modelos de 1 a 4 canais.",
+                imagensModal: [
+                    "https://images.unsplash.com/photo-1516549655669-df6654e35e01?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ]
+            },
+            {
+                id: 4,
+                nome: "Desfibrilador",
+                imagem: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                categoria: "emergencia",
+                descricao: "Desfibrilador cardíaco com capacidade de cardioversão sincronizada, desfibrilação e marca-passo externo. Equipamento essencial para parada cardiorrespiratória e arritmias graves. Tela colorida, análise de ritmo integrada, modo pediátrico e registro de eventos. Bateria de longa duração e design robusto para uso em ambientes hospitalares e pré-hospitalares.",
+                imagensModal: [
+                    "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ]
+            },
+            {
+                id: 5,
+                nome: "Eletrocardiógrafo",
+                imagem: "https://images.unsplash.com/photo-1585435557343-3b092031d5ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                categoria: "diagnostico",
+                descricao: "Eletrocardiógrafo digital de 12 canais para registro de atividade elétrica cardíaca. Interface touchscreen, armazenamento interno de exames, conexão Wi-Fi para transferência de dados e software de análise incluído. Leve, portátil e de fácil operação. Ideal para consultórios, ambulatórios, unidades básicas de saúde e hospitais.",
+                imagensModal: [
+                    "https://images.unsplash.com/photo-1585435557343-3b092031d5ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ]
+            },
+            {
+                id: 6,
+                nome: "Máquina de Anestesia",
+                imagem: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                categoria: "anestesia",
+                descricao: "Máquina de anestesia com sistema de ventilação integrado para procedimentos cirúrgicos. Oferece ventilação controlada por volume e pressão, monitoramento de gases anestésicos, sistema de absorção de CO2 e vaporizadores de precisão. Design ergonômico, sistema de alarmes abrangente e compatível com diversos agentes anestésicos. Atende aos mais rigorosos padrões de segurança.",
+                imagensModal: [
+                    "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ]
+            },
+            {
+                id: 7,
+                nome: "Oxímetro de Pulso",
+                imagem: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                categoria: "monitoramento",
+                descricao: "Oxímetro de pulso portátil para medição não invasiva da saturação de oxigênio no sangue (SpO2) e frequência cardíaca. Display colorido de alta visibilidade, alarmes audíveis e visuais, bateria recarregável com longa duração e design ergonômico. Ideal para uso em hospitais, clínicas, atendimento pré-hospitalar e monitoramento domiciliar.",
+                imagensModal: [
+                    "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ]
+            },
+            {
+                id: 8,
+                nome: "Nebulizador",
+                imagem: "https://images.unsplash.com/photo-1584634731339-252c581abfc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                categoria: "terapia",
+                descricao: "Nebulizador compressor para administração de medicamentos inalatórios. Gera partículas finas para melhor absorção pulmonar, é silencioso, de fácil operação e limpeza. Ideal para tratamento de asma, bronquite, DPOC e outras condições respiratórias. Inclui máscaras adulto e pediátrica, tubo de ar e copo nebulizador.",
+                imagensModal: [
+                    "https://images.unsplash.com/photo-1584634731339-252c581abfc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                ]
+            }
+            // ADICIONE MAIS PRODUTOS AQUI - COPIE A ESTRUTURA ACIMA E MODIFIQUE OS DADOS
+        ];
+
+        // ===== FUNCIONALIDADES JAVASCRIPT =====
+
+        // Menu Mobile
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('active');
+        });
+
+        // Função para gerar o link do WhatsApp
+        function gerarLinkWhatsApp(nomeProduto) {
+            const mensagem = `Olá, gostaria de informações sobre o equipamento: ${nomeProduto}`;
+            return `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
+        }
+
+        // Função para carregar produtos no catálogo
+        function carregarProdutos() {
+            const catalogo = document.getElementById('catalogo-produtos');
+            catalogo.innerHTML = '';
+            
+            PRODUTOS.forEach(produto => {
+                const produtoHTML = `
+                    <div class="produto" data-nome="${produto.nome}" data-categoria="${produto.categoria}">
+                        <div class="produto-imagem">
+                            <img src="${produto.imagem}" alt="${produto.nome}">
+                        </div>
+                        <div class="produto-info">
+                            <h3>${produto.nome}</h3>
+                            <button class="btn ver-mais" data-id="${produto.id}">Ver Mais</button>
+                        </div>
+                    </div>
+                `;
+                catalogo.innerHTML += produtoHTML;
+            });
+            
+            // Atualiza a contagem de produtos
+            document.getElementById('resultado-pesquisa').textContent = 
+                `Mostrando todos os ${PRODUTOS.length} equipamentos`;
+            
+            // Reativa os eventos dos botões "Ver Mais"
+            ativarEventosVerMais();
+        }
+
+        // Elementos da barra de pesquisa
+        const campoPesquisa = document.getElementById('campo-pesquisa');
+        const botaoPesquisa = document.getElementById('botao-pesquisa');
+        const resultadoPesquisa = document.getElementById('resultado-pesquisa');
+        const catalogoProdutos = document.getElementById('catalogo-produtos');
+
+        // Função de pesquisa
+        function pesquisarProdutos() {
+            const termo = campoPesquisa.value.toLowerCase().trim();
+            let produtosEncontrados = 0;
+            
+            // Esconde todos os produtos inicialmente
+            const todosProdutos = document.querySelectorAll('.produto');
+            todosProdutos.forEach(produto => {
+                produto.style.display = 'none';
+            });
+            
+            // Se o campo de pesquisa estiver vazio, mostra todos os produtos
+            if (termo === '') {
+                todosProdutos.forEach(produto => {
+                    produto.style.display = 'block';
+                });
+                resultadoPesquisa.textContent = `Mostrando todos os ${PRODUTOS.length} equipamentos`;
+                return;
+            }
+            
+            // Filtra os produtos pelo termo de pesquisa
+            todosProdutos.forEach(produto => {
+                const nomeProduto = produto.getAttribute('data-nome').toLowerCase();
+                if (nomeProduto.includes(termo)) {
+                    produto.style.display = 'block';
+                    produtosEncontrados++;
+                }
+            });
+            
+            // Atualiza a mensagem de resultado
+            if (produtosEncontrados > 0) {
+                resultadoPesquisa.textContent = `Encontramos ${produtosEncontrados} equipamento(s) para "${termo}"`;
+            } else {
+                resultadoPesquisa.textContent = `Nenhum equipamento encontrado para "${termo}"`;
+                
+                // Mostra mensagem de nenhum resultado
+                const mensagemSemResultados = document.createElement('div');
+                mensagemSemResultados.className = 'sem-resultados';
+                mensagemSemResultados.innerHTML = `
+                    <i class="fas fa-search"></i>
+                    <h3>Nenhum equipamento encontrado</h3>
+                    <p>Tente buscar com outros termos ou <a href="index.html#contato">entre em contato</a> para solicitar um equipamento específico.</p>
+                `;
+                
+                // Remove mensagens anteriores
+                const mensagensAnteriores = catalogoProdutos.querySelectorAll('.sem-resultados');
+                mensagensAnteriores.forEach(msg => msg.remove());
+                
+                // Adiciona a nova mensagem
+                catalogoProdutos.appendChild(mensagemSemResultados);
+            }
+        }
+
+        // Eventos da barra de pesquisa
+        botaoPesquisa.addEventListener('click', pesquisarProdutos);
+        campoPesquisa.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                pesquisarProdutos();
+            }
+        });
+
+        // Modal dos produtos
+        const modal = document.getElementById('modal-produto');
+        const modalTitulo = document.getElementById('modal-titulo');
+        const modalDescricao = document.getElementById('modal-descricao');
+        const modalWhatsapp = document.getElementById('modal-whatsapp');
+        const modalGaleria = document.getElementById('modal-galeria');
+
+        // Função para ativar eventos dos botões "Ver Mais"
+        function ativarEventosVerMais() {
+            document.querySelectorAll('.ver-mais').forEach(botao => {
+                botao.addEventListener('click', function() {
+                    const produtoId = parseInt(this.getAttribute('data-id'));
+                    const produto = PRODUTOS.find(p => p.id === produtoId);
+                    
+                    if (produto) {
+                        modalTitulo.textContent = produto.nome;
+                        modalDescricao.textContent = produto.descricao;
+                        modalWhatsapp.href = gerarLinkWhatsApp(produto.nome);
+                        
+                        // Carrega as imagens no modal
+                        modalGaleria.innerHTML = '';
+                        produto.imagensModal.forEach(imagem => {
+                            const imgElement = document.createElement('div');
+                            imgElement.className = 'modal-imagem';
+                            imgElement.innerHTML = `<img src="${imagem}" alt="${produto.nome}">`;
+                            modalGaleria.appendChild(imgElement);
+                        });
+                        
+                        modal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+        }
+
+        // Fechar modal
+        document.querySelector('.modal-fechar').addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Fechar modal ao clicar fora do conteúdo
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Fechar menu ao clicar em um link (mobile)
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('nav ul').classList.remove('active');
+            });
+        });
+
+        // Efeito de header ao rolar
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.padding = '5px 0';
+                header.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.padding = '15px 0';
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Inicializa o catálogo quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarProdutos();
+        });
+    </script>
+</body>
+</html>
