@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedEquip - Manutenção e Locação de Equipamentos Hospitalares</title>
+    <title>Alternativa Assistência Técnica - Manutenção e Locação de Equipamentos Hospitalares</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ===== VARIÁVEIS DE CORES (FÁCIL DE MODIFICAR) ===== */
@@ -65,7 +65,7 @@
         }
 
         .btn:hover {
-            background-color: #c0392b;
+            background-color: #128C7E;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
@@ -156,65 +156,61 @@
             color: var(--cor-primaria);
         }
 
-        /* ===== CAPA ===== */
+        /* ===== CAPA COM VÍDEO ===== */
         .capa {
             margin-top: 80px;
             position: relative;
-            height: 80vh;
-            min-height: 500px;
+        }
+
+        .video-container {
+            position: relative;
+            height: 70vh;
+            min-height: 400px;
             overflow: hidden;
         }
 
-        .slideshow {
+        .video-capa {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            object-fit: cover;
         }
 
-        .slide {
+        .overlay-video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
         }
 
-        .slide.active {
-            opacity: 1;
-        }
-
-        .capa-conteudo {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        /* ===== CONTEÚDO ABAIXO DO VÍDEO ===== */
+        .conteudo-capa {
+            background: var(--cor-branco);
+            padding: 80px 0;
             text-align: center;
-            color: var(--cor-branco);
-            z-index: 2;
-            width: 80%;
-            max-width: 800px;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
         }
 
-        .capa-conteudo h1 {
+        .conteudo-capa h1 {
             font-size: 3rem;
             margin-bottom: 20px;
-            color: var(--cor-branco);
+            color: var(--cor-primaria);
         }
 
-        .capa-conteudo p {
-            font-size: 1.2rem;
+        .conteudo-capa p {
+            font-size: 1.3rem;
             margin-bottom: 30px;
+            color: var(--cor-texto);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .capa-conteudo .btn {
+        .conteudo-capa .btn {
             font-size: 1.1rem;
             padding: 15px 30px;
         }
@@ -573,7 +569,7 @@
                 margin-top: 30px;
             }
             
-            .capa-conteudo h1 {
+            .conteudo-capa h1 {
                 font-size: 2.5rem;
             }
         }
@@ -610,12 +606,17 @@
                 width: 48%;
             }
             
-            .capa-conteudo h1 {
+            .conteudo-capa h1 {
                 font-size: 2rem;
             }
             
-            .capa-conteudo p {
-                font-size: 1rem;
+            .conteudo-capa p {
+                font-size: 1.1rem;
+            }
+
+            .video-container {
+                height: 50vh;
+                min-height: 300px;
             }
         }
 
@@ -624,7 +625,7 @@
                 width: 100%;
             }
             
-            .capa-conteudo h1 {
+            .conteudo-capa h1 {
                 font-size: 1.8rem;
             }
             
@@ -634,6 +635,15 @@
             
             .empresa h2, .tecnico h2, .contato h2 {
                 font-size: 2rem;
+            }
+
+            .conteudo-capa {
+                padding: 60px 0;
+            }
+
+            .video-container {
+                height: 40vh;
+                min-height: 250px;
             }
         }
     </style>
@@ -645,8 +655,7 @@
             <!-- LOGO - Substitua pela sua imagem -->
             <div class="logo">
                 <!-- COLOQUE SUA LOGO AQUI -->
-                <img src="https://res.cloudinary.com/dtkduopiv/image/upload/v1761962575/Design_sem_nome__17_-removebg-preview_mzpjah.png" alt="MedEquip - Equipamentos Hospitalares"> 
-                <!-- <h2 style="color: var(--cor-primaria);">MedEquip</h2>-->
+                <img src="https://res.cloudinary.com/dtkduopiv/image/upload/v1761962575/Design_sem_nome__17_-removebg-preview_mzpjah.png" alt="Alternativa Assistência Técnica - Equipamentos Hospitalares"> 
             </div>
             
             <!-- Menu de Navegação -->
@@ -667,26 +676,32 @@
 
     <!-- Conteúdo Principal (Página Home) -->
     <main id="home">
-        <!-- Capa com Slideshow -->
+        <!-- Capa com Vídeo -->
         <section class="capa">
-            <div class="slideshow">
-                <!-- Slides - Substitua pelas suas imagens -->
-                <div class="slide active" style="background-image: url('https://res.cloudinary.com/dtkduopiv/image/upload/v1761961341/Design_sem_nome_15_fzknve.png')"></div>
-                <div class="slide" style="background-image: url('https://res.cloudinary.com/dtkduopiv/image/upload/v1761960614/4_fohyzg.png')"></div>
-                <div class="slide" style="background-image: url('https://res.cloudinary.com/dtkduopiv/image/upload/v1761960616/1_ib4g4z.png')"></div>
+            <!-- VÍDEO DA CAPA - Substitua pelo link do seu vídeo -->
+            <div class="video-container">
+                <video class="video-capa" autoplay muted loop playsinline>
+                    <source src="https://res.cloudinary.com/dtkduopiv/video/upload/v1762021150/NLA_Prudent_rvrkfq.mp4" type="video/mp4">
+                    <!-- Fallback para caso o vídeo não carregue -->
+                    Seu navegador não suporta o elemento de vídeo.
+                </video>
+                <div class="overlay-video"></div>
             </div>
             
-            <div class="capa-conteudo">
-                <!-- TÍTULO DA CAPA - Modifique aqui -->
-                <h1>Alternativa Assistência Técnica</h1>
-                
-                <!-- TEXTO DA CAPA - Modifique aqui -->
-                <p>Locamos e realizamos manutenção em equipamentos médicos com qualidade, segurança e agilidade para sua instituição de saúde.</p>
-                
-                <!-- BOTÃO WHATSAPP - Modifique o número após "phone=" -->
-                <a href="https://wa.me/5585989408154?text=Olá, gostaria de mais informações sobre os equipamentos hospitalares" class="btn" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Fale Conosco
-                </a>
+            <!-- CONTEÚDO ABAIXO DO VÍDEO -->
+            <div class="conteudo-capa">
+                <div class="container">
+                    <!-- TÍTULO DA CAPA - Modifique aqui -->
+                    <h1>Alternativa Assistência Técnica</h1>
+                    
+                    <!-- TEXTO DA CAPA - Modifique aqui -->
+                    <p>Especializada em locação e manutenção de equipamentos médicos com qualidade, segurança e agilidade para sua instituição de saúde. Oferecemos soluções completas para hospitais, clínicas e laboratórios.</p>
+                    
+                    <!-- BOTÃO WHATSAPP - Modifique o número após "phone=" -->
+                    <a href="https://wa.me/5585989408154?text=Olá, gostaria de mais informações sobre os equipamentos hospitalares" class="btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Fale Conosco
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -722,7 +737,7 @@
                         <p>Nossa equipe é composta por profissionais altamente qualificados e com vasta experiência no setor de saúde, garantindo a qualidade e segurança em todos os nossos serviços.</p>
                         
                         <!-- BOTÃO WHATSAPP - Modifique o número após "phone=" -->
-                        <a href="https://wa.me/5585989408154?text=Olá, gostaria de saber mais sobre a MedEquip" class="btn" target="_blank">
+                        <a href="https://wa.me/5585989408154?text=Olá, gostaria de saber mais sobre a Alternativa Assistência Técnica" class="btn" target="_blank">
                             Saiba Mais
                         </a>
                     </div>
@@ -790,24 +805,24 @@
                         <i class="fas fa-phone"></i>
                         <!-- TELEFONE - Modifique aqui -->
                         <h3>Telefone</h3>
-                        <p>(11) 9999-9999</p>
-                        <p>(11) 8888-8888</p>
+                        <p>(85) 98940-8154</p>
+                        <p>(85) 9999-9999</p>
                     </div>
                     
                     <div class="info-item">
                         <i class="fas fa-envelope"></i>
                         <!-- E-MAIL - Modifique aqui -->
                         <h3>E-mail</h3>
-                        <p>contato@medequip.com.br</p>
-                        <p>vendas@medequip.com.br</p>
+                        <p>contato@alternativa.com.br</p>
+                        <p>vendas@alternativa.com.br</p>
                     </div>
                     
                     <div class="info-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <!-- ENDEREÇO - Modifique aqui -->
                         <h3>Endereço</h3>
-                        <p>Av. Paulista, 1000 - Bela Vista</p>
-                        <p>São Paulo - SP, 01310-100</p>
+                        <p>Av. Principal, 1000 - Centro</p>
+                        <p>Fortaleza - CE, 60000-000</p>
                     </div>
                     
                     <div class="info-item">
@@ -844,7 +859,7 @@
         <div class="container footer-container">
             <div class="footer-logo">
                 <!-- COLOQUE SUA LOGO AQUI -->
-                <!-- <img src="logo-medequip-branco.png" alt="MedEquip"> -->
+                <!-- <img src="logo-alternativa-branco.png" alt="Alternativa Assistência Técnica"> -->
                 <h3>Alternativa Assistência Técnica</h3>
             </div>
             <div class="footer-texto">
@@ -852,7 +867,7 @@
             </div>
             <div class="footer-direitos">
                 <!-- TEXTO DO RODAPÉ - Modifique aqui -->
-                <p>&copy; 2023 Alternativa Assitência Técnica. Todos os direitos reservados.</p>
+                <p>&copy; 2023 Alternativa Assistência Técnica. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
@@ -863,26 +878,25 @@
         /*
         COMO PERSONALIZAR O SITE:
         
-        1. CORES:
+        1. VÍDEO DA CAPA:
+           - Substitua o src do vídeo pelo link do seu vídeo
+           - Exemplo: <source src="SEU_LINK_DO_VIDEO.mp4" type="video/mp4">
+        
+        2. CORES:
            - Modifique as variáveis CSS na seção :root no início do arquivo
-           - Exemplo: --cor-primaria: #1a5276; (azul escuro)
         
-        2. LOGO:
+        3. LOGO:
            - Substitua o conteúdo da div com classe "logo" pela sua imagem
-           - Exemplo: <img src="sua-logo.jpg" alt="Logo da Empresa">
         
-        3. TÍTULOS E TEXTOS:
+        4. TÍTULOS E TEXTOS:
            - Procure pelos comentários "Modifique aqui" no HTML
            - Substitua o texto entre as tags pelos seus conteúdos
         
-        4. IMAGENS:
+        5. IMAGENS:
            - Substitua as URLs pelas suas imagens
-           - Para a capa: modifique as URLs no style="background-image: url('...')"
-           - Para outras imagens: substitua os src das tags img
         
-        5. LINKS DO WHATSAPP:
-           - Substitua "5511999999999" pelo número da sua empresa (com código do país)
-           - Exemplo: para o número (11) 99999-9999, use: 5511999999999
+        6. LINKS DO WHATSAPP:
+           - Substitua "5585989408154" pelo número da sua empresa
         */
 
         // ===== FUNCIONALIDADES JAVASCRIPT =====
@@ -891,19 +905,6 @@
         document.querySelector('.menu-toggle').addEventListener('click', function() {
             document.querySelector('nav ul').classList.toggle('active');
         });
-
-        // Slideshow da Capa
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }
-        
-        // Muda o slide a cada 5 segundos
-        setInterval(nextSlide, 5000);
 
         // Fechar menu ao clicar em um link (mobile)
         document.querySelectorAll('nav ul li a').forEach(link => {
@@ -939,6 +940,17 @@
             } else {
                 header.style.padding = '15px 0';
                 header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            }
+        });
+
+        // Controle do vídeo - garantir que ele funcione em dispositivos móveis
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('.video-capa');
+            if (video) {
+                video.play().catch(function(error) {
+                    // Fallback caso o autoplay não funcione
+                    console.log('Autoplay não permitido, tentando reproduzir com interação do usuário');
+                });
             }
         });
     </script>
